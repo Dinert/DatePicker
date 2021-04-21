@@ -1,25 +1,64 @@
-# DatePicker
-DatePicker是基于moment.js的日期选择器插件，支持小时、日、周、月、季、年的日期选择方式
+<!DOCTYPE html>
+<html lang="en">
 
-它简单、好用
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日期时间选择器</title>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_2431045_hbwl3x53oep.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<style>
+    .wrap{
+        line-height: 40px;
+        height: 40px;
+        border: 1px solid #dcdfe6;
+        width: 400px;
+        margin: 40px auto 0;
+        display: flex;
+        transition: border-color .2s;
+        border-radius: 4px;
+    }
+    .wrap:hover{
+        border-color: #c0c4cc;
+    }
+    .wrap:active{
+        border-color: #66b1ff;
+    }
+    .wrap.active{
+        border-color: #66b1ff;
+    }
+    .wrap > div{
+        flex: 1;
+        padding: 0 10px;
+        display: flex;
+        cursor: pointer;
+    }
+    .wrap .ali-iconfont{
+        display: inline-block;
+        width: 20px;
+        text-align: center;
+        margin-right: 5px;
+    }
+    .wrap-l-starTime, .wrap-l-endTime{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .wrap [name="startTime"], .wrap [name="endTime"]{
+        flex: 1;
+        width: 100%;
+    }
+    .wrap [name="startTime"], .wrap [name="endTime"], .wrap [name="startTime"]:focus, .wrap [name="endTime"]:focus{
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+</style>
 
-# 使用方法
-
-#### 引入CSS文件
-```javascript
-<link rel="stylesheet" href="http://at.alicdn.com/t/font_2431045_hbwl3x53oep.css">  
-<link rel="stylesheet" href="./index.css">
-```
-
-#### 引入javascript文件
-```javascript
-    <script src="./jquery-1.12.4.js"></script>
-    <script src="./moment.js"></script>
-    <script src="./jquery.datePicker.js"></script>
-```
-
-#### DOM结构
-```html
+<body>
+    
     <div class="wrap">
         <div class="wrap-l">
             <i class="ali-iconfont ali-iconshizhong"></i>
@@ -35,55 +74,12 @@ DatePicker是基于moment.js的日期选择器插件，支持小时、日、周�
             </div>
         </div>
     </div>
-```
+</body>
+<script src="./jquery-1.12.4.js"></script>
+<script src="./moment.js"></script>
+<script src="./jquery.datePicker.js"></script>
+<script>
 
-#### 调用方式
-```javascript
-    $('.wrap').on('click', function () {
-        var _this = this;
-        var reportTimeType = 4;
-        var double = true;
-        if(!$(this).next('[name="datePicker"]').length) {
-            $(this).after("<div class='datePicker-x' name='datePicker'></div>");
-                datePicker = $('.datePicker-x').datePicker({
-                    reportTimeType: reportTimeType, // 4代表小时、5代表天、6代表周、7代表月、8代表季、9代表年
-                    startDom: $(_this).find('input[name="startTime"]'),  // 开始时间要赋值的DOM元素
-                    endDom: $(_this).find('input[name="endTime"]'),  // 结束时间要赋值的DOM元素
-                    format: 'YYYY-MM-DD HH:mm:ss',
-                    fastTime: fastTime[double][reportTimeType], // 快速选择的时间
-                    isFast: true,   // 是否显示快速选择的选项
-                    isDouble: double,   // 是否双选择的日历
-                    disabledDate: false,    // 是否禁用以后的时间
-                    yes: function (startTime, endTime) {    // 成功赋值前的回调可改变赋值的时间格式
-                    },
-                });
-        }else {
-            if($(this).next('[name="datePicker"]').hasClass('hide')) {
-                $(this).next('[name="datePicker"]').removeClass('hide');
-                datePicker.render();
-            }else {
-                $(this).next('[name="datePicker"]').addClass('hide');
-
-            }
-        }
-    });
-```
-
-#### 参数说明
-|      名称      |             默认值             |                            说明                            |
-| :------------: | :----------------------------: | :--------------------------------------------------------: |
-| reportTimeType |               4                |         4: 小时、5: 天、6: 周、7: 月、8: 季、9:年          |
-|    startDom    |           container            |                   开始时间的赋值DOM对象                    |
-|     endDom     |           container            |                   结束时间的赋值DOM对象                    |
-|     format     |      YYYY-MM-DD HH:mm:ss       |                   只针对小时的格式化对象                   |
-|    fastTime    | 默认值详见下方快速选择参数格式 |                     快速选择的时间格式                     |
-|     isFast     |             false              |                    是否显示快速选择面板                    |
-|    isDouble    |             false              |                      是否是单双选日历                      |
-|  disabledDate  |             false              |               是否禁用当前之后的时间不可选择               |
-|      yes       |                                | 确认选择后赋值前的格式化回调函数，可改变赋值元素的时间格式 |
-
-#### 快速选择的格式参数
-```javascript
     var fastTime = {
         true: {
             4: { // 双日历天、小时的快速选择格式
@@ -154,6 +150,38 @@ DatePicker是基于moment.js的日期选择器插件，支持小时、日、周�
         }
 
     }
-```
 
-#### 有点忙，不定时更新，谢谢大家。
+    $('.wrap').on('click', function () {
+        var _this = this;
+        var reportTimeType = 4;
+        var double = true;
+        if(!$(this).next('[name="datePicker"]').length) {
+            $(this).after("<div class='datePicker-x' name='datePicker'></div>");
+                datePicker = $('.datePicker-x').datePicker({
+                    reportTimeType: reportTimeType, // 4代表小时、5代表天、6代表周、7代表月、8代表季、9代表年
+                    startDom: $(_this).find('input[name="startTime"]'),  // 开始时间要赋值的DOM元素
+                    endDom: $(_this).find('input[name="endTime"]'),  // 结束时间要赋值的DOM元素
+                    format: 'YYYY-MM-DD HH:mm:ss',
+                    fastTime: fastTime[double][reportTimeType], // 快速选择的时间
+                    isFast: true,   // 是否显示快速选择的选项
+                    isDouble: double,   // 是否双选择的日历
+                    disabledDate: false,    // 是否禁用以后的时间
+                    yes: function (startTime, endTime) {    // 成功赋值前的回调可改变赋值的时间格式
+                    },
+                });
+        }else {
+            if($(this).next('[name="datePicker"]').hasClass('hide')) {
+                $(this).next('[name="datePicker"]').removeClass('hide');
+                datePicker.render();
+            }else {
+                $(this).next('[name="datePicker"]').addClass('hide');
+
+            }
+        }
+    });
+
+
+
+</script>
+
+</html>
